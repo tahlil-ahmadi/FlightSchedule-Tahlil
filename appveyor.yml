@@ -1,0 +1,10 @@
+version: 0.{build}
+image: Visual Studio 2017
+configuration: Release
+branches:
+  only:
+    - master
+build_script:
+  - ps: .\Backend\BuildScript\build.ps1 -Script Backend/BuildScript/build.cake
+test: off
+deploy: off
