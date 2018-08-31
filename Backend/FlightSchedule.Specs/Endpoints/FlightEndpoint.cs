@@ -13,6 +13,7 @@ namespace FlightSchedule.Specs.Endpoints
         public static void GenerateFlights(ReserveScheduleDto schedule)
         {
             var client = new RestClient("http://localhost:5783/api/");
+
             var request = new RestRequest("flights", Method.POST)
             {
                 RequestFormat = DataFormat.Json
