@@ -23,18 +23,17 @@ Task("Build")
 
 Task("Run-Unit-Tests")
     .Does(()=>{
-        // var testAssemblies = GetFiles("../**/bin/"+ configuration +"/*.Tests.Unit.dll");
-        // XUnit2(testAssemblies);
+        var testAssemblies = GetFiles("../**/bin/"+ configuration +"/*.Tests.Unit.dll");
+        XUnit2(testAssemblies);
 
-        DotCoverCover(tool => {
-        tool.XUnit2("./**/bin/"+ configuration +"/*.Tests.Unit.dll",
-            new XUnit2Settings {
-            ShadowCopy = false
-            });
-        },
-        new FilePath("./TestResults/result.dcvr"),
-        new DotCoverCoverSettings());
-
+        // DotCoverCover(tool => {
+        // tool.XUnit2("./**/bin/"+ configuration +"/*.Tests.Unit.dll",
+        //     new XUnit2Settings {
+        //     ShadowCopy = false
+        //     });
+        // },
+        // new FilePath("./TestResults/result.dcvr"),
+        // new DotCoverCoverSettings());
 });
 
 Task("Backup-Website")
@@ -61,7 +60,7 @@ Task("Default")
     .IsDependentOn("Clean")
     .IsDependentOn("Build")
     .IsDependentOn("Run-Unit-Tests");
-     .IsDependentOn("Backup-Website")
-     .IsDependentOn("Publish-Website");
+    //  .IsDependentOn("Backup-Website")
+    //  .IsDependentOn("Publish-Website");
 
 RunTarget("Default");
