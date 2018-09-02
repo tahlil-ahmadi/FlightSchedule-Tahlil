@@ -16,16 +16,16 @@ namespace FlightSchedule.Application.Tests.Unit.Tests
         {
             //Arrange
             var flightServiceBuilder = new FlightServiceBuilder();
-            flightServiceBuilder.GetSomeFlight(2);
+            flightServiceBuilder.GenerateAndKeepDesiredNumberOfFlightsInListFormat(2);
 
             //Act
-            flightServiceBuilder.GenerateFlights();
-            var firstFlight = flightServiceBuilder.SomeFlightsForReservedSchedule[0];
-            var secondFlight = flightServiceBuilder.SomeFlightsForReservedSchedule[1];
+            flightServiceBuilder.GenerateFlightsBasedOnReserveScheduleDtoInListMoq();
+            var firstFlightGeneratedByApi = flightServiceBuilder.DesiredNumberOfFlightsInListFormatForReservedSchedule[0];
+            var secondFlightGeneratedByApi = flightServiceBuilder.DesiredNumberOfFlightsInListFormatForReservedSchedule[1];
 
             //Assert
-            flightServiceBuilder.FlightRepositoryProp.Received(1).Save(firstFlight);
-            flightServiceBuilder.FlightRepositoryProp.Received(1).Save(secondFlight);
+            flightServiceBuilder.FlightRepositoryMoq.Received(1).Save(firstFlightGeneratedByApi);
+            flightServiceBuilder.FlightRepositoryMoq.Received(1).Save(secondFlightGeneratedByApi);
         }
 
     }
