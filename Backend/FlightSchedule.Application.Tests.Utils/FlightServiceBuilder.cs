@@ -11,38 +11,38 @@ namespace FlightSchedule.Application.Tests.Utils
     public class FlightServiceBuilder
     {
         public ReserveScheduleDto ReserveScheduleDto { get; set; }
-        public IFlightCalculationService FlightsOfReservedSchedule { get; set; }
-        public List<Flight> SomeFlightsForReservedSchedule { get;private set; }
-        public IFlightRepository FlightRepositoryProp { get;private set; }
+        public IFlightCalculationService FlightsOfReservedScheduleMoq { get; set; }
+        public List<Flight> DesiredNumberOfFlightsInListFormatForReservedSchedule { get;private set; }
+        public IFlightRepository FlightRepositoryMoq { get;private set; }
         public FlightService FlightService { get; set; }
 
         public FlightServiceBuilder()
         {
-            FlightsOfReservedSchedule = Substitute.For<IFlightCalculationService>();
-            FlightRepositoryProp = Substitute.For<IFlightRepository>();
+            FlightsOfReservedScheduleMoq = Substitute.For<IFlightCalculationService>();
+            FlightRepositoryMoq = Substitute.For<IFlightRepository>();
             ReserveScheduleDto = new ReserveScheduleDtoTestBuilder().Build();
-            SomeFlightsForReservedSchedule = new FlightsTestListBuilder().GetSomeFlights(1).ToList();
-            FlightService = new FlightService(FlightRepositoryProp, FlightsOfReservedSchedule);
+            DesiredNumberOfFlightsInListFormatForReservedSchedule = new FlightsTestListBuilder().GetSomeFlights(1).ToList();
+            FlightService = new FlightService(FlightRepositoryMoq, FlightsOfReservedScheduleMoq);
         }
 
-        public FlightServiceBuilder GetSomeFlight(int numberOfFlights)
+        public FlightServiceBuilder GenerateAndKeepDesiredNumberOfFlightsInListFormat(int numberOfFlights)
         {
-            SomeFlightsForReservedSchedule = new FlightsTestListBuilder().GetSomeFlights(numberOfFlights).ToList();
+            DesiredNumberOfFlightsInListFormatForReservedSchedule = new FlightsTestListBuilder().GetSomeFlights(numberOfFlights).ToList();
             return this;
         } 
 
-        public void GenerateFlights()
+        public void GenerateFlightsBasedOnReserveScheduleDtoInListMoq()
         {
-            SetFlightsOfReservedSchedule();
+            SetFlightsOfReservedScheduleMoq();
 
             FlightService.GenerateFlights(ReserveScheduleDto);
         }
 
-        private void SetFlightsOfReservedSchedule()
+        private void SetFlightsOfReservedScheduleMoq()
         {
-            FlightsOfReservedSchedule
+            FlightsOfReservedScheduleMoq
                             .Calculate(Arg.Any<ReserveSchedule>())
-                            .Returns(SomeFlightsForReservedSchedule);
+                            .Returns(DesiredNumberOfFlightsInListFormatForReservedSchedule);
         }
     }
 }
